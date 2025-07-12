@@ -6,7 +6,6 @@ build/
 *.log
 
 # === pnpm ===
-pnpm-lock.yaml
 .pnpm-debug.log
 .pnpm-store/
 
