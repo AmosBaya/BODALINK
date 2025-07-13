@@ -19,3 +19,5 @@ const rideSchema = mongoose.Schema({
     fare: Number,
     createdAt: Date
 });
+
+module.exports = mongoose.model('Ride', rideSchema);
