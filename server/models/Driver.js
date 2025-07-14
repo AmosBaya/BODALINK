@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 const driverSchema = mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'User',// Reference to User
     required: true,
- }, // Reference to User
+ }, 
   license: {
     number: String,
     expiryDate: Date,
