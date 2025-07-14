@@ -2,11 +2,46 @@ const mongoose = require('mongoose');
 
 
 const driverSchema = mongoose.Schema({
-    firstName: {type: String, required: true},
-    lastName: {type:String, required: true},
-    email: {type: String, required:true, unique:true},
-    phoneNumber:{required:true, unique:true},
-    password: {type: String, required:true}
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+ }, // Reference to User
+  license: {
+    number: String,
+    expiryDate: Date,
+    imageUrl: String
+  },
+  vehicle: {
+    make: String,
+    model: String,
+    year: Number,
+    licensePlate: String,
+    color: String,
+    imageUrl: String
+  },
+  bankDetails: {
+    accountNumber: String,
+    bankName: String,
+    mpesaNumber: String // For Kenya
+  },
+  status: ["pending", "approved", "suspended"],
+  isOnline: Boolean,
+  currentLocation: {
+    latitude: Number,
+    longitude: Number,
+    lastUpdated: Date
+  },
+  rating: {
+    average: Number,
+    totalRatings: Number
+  },
+  earnings: {
+    daily: Number,
+    weekly: Number,
+    monthly: Number,
+    total: Number
+  }
 })
 
 module.exports = mongoose.model('Driver', driverSchema);
