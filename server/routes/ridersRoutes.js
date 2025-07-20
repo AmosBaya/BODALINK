@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const riderController = require('../controllers/riderController');
+const riderController = require('../controllers/ridersController');
 
-// ✅ Replace with your actual auth middleware (e.g., Clerk or JWT-based)
-const requireAuth = require('../middleware/authMiddleware'); // This sets req.user
+const authenticate= require('../middlewares/authMiddleware');
 
-// Apply authentication middleware to all routes below
-router.use(requireAuth);
+router.use(authenticate); // ensures only logged-in riders access these routes
 
 // @route   GET /api/riders/profile
 router.get('/profile', riderController.getRiderProfile);

@@ -8,7 +8,9 @@ const cors = require('cors')
 const ConnectDB = require('./config/db');
 
 // importing routes
-const riderRoutes = require('./routes/riders');
+const riderRoutes = require('./routes/ridersRoutes');
+const authRoutes = require('./routes/authRoutes');
+const driverRoutes = require('./routes/driverRoutes');
 
 // consts
 const PORT = process.env.PORT || 5000;
@@ -20,6 +22,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 app.use('/api/riders', riderRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/drivers', driverRoutes);
 
 
 
