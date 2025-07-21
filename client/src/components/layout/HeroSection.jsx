@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MapPin, Clock, Shield, Smartphone, Star, Zap, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -37,21 +38,25 @@ const Hero = () => {
             
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button 
-                size="lg" 
-                className="text-lg px-8 py-4 bg-white text-gray-900 hover:bg-gray-100 font-semibold shadow-button transition-all duration-300 hover:shadow-xl hover:scale-105"
-              >
-                <Smartphone className="h-5 w-5 mr-2" />
-                Book a Ride
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="text-lg px-8 py-4 bg-transparent border-2 border-white/30 text-white hover:bg-white/10 font-semibold backdrop-blur-sm transition-all duration-300 hover:border-white/50"
-              >
-                <span className="mr-2">🏍️</span>
-                Become a Driver
-              </Button>
+              <Link to="/rider-auth">
+                <Button 
+                  size="lg" 
+                  className="text-lg px-8 py-4 bg-white text-gray-900 hover:bg-gray-100 font-semibold shadow-button transition-all duration-300 hover:shadow-xl hover:scale-105"
+                >
+                  <Smartphone className="h-5 w-5 mr-2" />
+                  Book a Ride
+                </Button>
+              </Link>
+              <Link to="/driver-auth">
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="text-lg px-8 py-4 bg-transparent border-2 border-white/30 text-white hover:bg-white/10 font-semibold backdrop-blur-sm transition-all duration-300 hover:border-white/50"
+                >
+                  <span className="mr-2">🏍️</span>
+                  Become a Driver
+                </Button>
+              </Link>
             </div>
 
             {/* Key Features Grid */}

@@ -17,7 +17,7 @@ const Header = () => {
               <MapPin className="h-6 w-6 text-white" />
             </div>
             <div className="font-bold text-xl text-gray-900">
-              Boda<span className="text-orange-500">Link</span>
+              Boda<span className="text-orange-500">Ride</span>
             </div>
           </Link>
 
@@ -39,12 +39,12 @@ const Header = () => {
 
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link to="/rider-dashboard">
+            <Link to="/rider-auth">
               <Button variant="ghost" className="text-gray-700 hover:text-orange-500 hover:bg-orange-50">
-                Book a Ride
+                Rider App
               </Button>
             </Link>
-            <Link to="/driver-dashboard">
+            <Link to="/driver-auth">
               <Button className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold shadow-button">
                 <span className="mr-2">🏍️</span>
                 Drive with Us
@@ -78,13 +78,13 @@ const Header = () => {
                 Support
               </a>
               <div className="flex flex-col space-y-3 pt-4 border-t border-gray-200">
-                <Link to="/rider-dashboard">
+                <Link to="/rider-auth">
                   <Button variant="outline" className="w-full">
                     <Smartphone className="h-4 w-4 mr-2" />
-                    Book a Ride
+                    Rider App
                   </Button>
                 </Link>
-                <Link to="/driver-dashboard">
+                <Link to="/driver-auth">
                   <Button className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600">
                     <span className="mr-2">🏍️</span>
                     Drive with Us
