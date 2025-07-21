@@ -1,25 +1,21 @@
 import { Button } from "@/components/ui/button"
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
 import DriverDashboard from "./pages/DriverDashboard";
-import RiderDashboard from "./pages/RiderDashboard";
+import RiderDashboard from "./pages/Rider-dashboard";
+import Home from "./pages/Home";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner"
 
 export default function App() {
   return (
-    // <header>
-    //   <SignedOut>
-    //     <SignInButton />
-    //   </SignedOut>
-    //   <SignedIn>
-    //     <UserButton />
-    //   </SignedIn>
-    // </header>
-
-    // <DriverDashboard />
     <>
     <Toaster />
-
-    <RiderDashboard />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/rider" element={<RiderDashboard />} />
+        <Route path="/driver" element={<DriverDashboard />} />
+      </Routes>
+    </BrowserRouter>
     </>
   );
 };
