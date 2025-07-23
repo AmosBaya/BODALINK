@@ -77,13 +77,14 @@ const handleSubmit = async (e) => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center p-4">
-      {/* Background decoration */}
+    //<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center p-4">
+    <div className="flex flex-col min-h-screen md:min-h-dvh bg-gradient-to-br from-blue-50 to-indigo-50">  
+    {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-20 w-32 h-32 bg-blue-200/30 rounded-full blur-xl"></div>
         <div className="absolute bottom-20 right-20 w-48 h-48 bg-indigo-200/30 rounded-full blur-xl"></div>
       </div>
-
+      <div className="flex-1 flex items-center justify-center p-4">
       <div className="w-full max-w-md relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
@@ -92,7 +93,7 @@ const handleSubmit = async (e) => {
               <MapPin className="h-7 w-7 text-white" />
             </div>
             <div className="font-bold text-2xl text-gray-900">
-              Boda<span className="text-blue-500">Ride</span>
+              Boda<span className="text-blue-500">Link</span>
             </div>
           </Link>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -278,6 +279,7 @@ const handleSubmit = async (e) => {
             </div>
           </CardContent>
         </Card>
+      </div>
       </div>
     </div>
   );

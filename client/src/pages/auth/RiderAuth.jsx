@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin, Smartphone, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 import axios from "axios";
+import { toast } from "sonner";
 
 const RiderAuth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -87,7 +88,7 @@ const handleSubmit = async (e) => {
               <MapPin className="h-7 w-7 text-white" />
             </div>
             <div className="font-bold text-2xl text-gray-900">
-              Boda<span className="text-orange-500">Ride</span>
+              Boda<span className="text-orange-500">Link</span>
             </div>
           </Link>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">

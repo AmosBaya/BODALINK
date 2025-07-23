@@ -75,7 +75,7 @@ const FeatureSection = () => {
           </Badge>
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
             Revolutionary Features for
-            <span className="bg-gradient-hero bg-clip-text text-transparent"> Modern Transport</span>
+            <span className="bg-gradient-hero bg-orange-500 bg-clip-text text-transparent"> Modern Transport</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Experience the future of motorcycle transport with innovative safety features and smart technology
@@ -117,7 +117,7 @@ const FeatureSection = () => {
 
         {/* Weather Integration Highlight */}
         <div className="mt-16">
-          <Card className="p-8 bg-gradient-hero text-white relative overflow-hidden">
+          <Card className="p-8 bg-gradient-hero bg-orange-500 text-white relative overflow-hidden">
             <div className="relative z-10">
               <div className="flex items-center gap-4 mb-6">
                 <CloudRain className="h-12 w-12 text-white" />

@@ -68,7 +68,7 @@ const SafetyFeatures = () => {
           </Badge>
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
             Your Safety is Our
-            <span className="bg-gradient-hero bg-clip-text text-transparent"> Top Priority</span>
+            <span className="bg-gradient-hero bg-orange-500 bg-clip-text text-transparent"> Top Priority</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Advanced safety features designed specifically for African roads and riding conditions
