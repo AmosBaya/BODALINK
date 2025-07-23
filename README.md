@@ -71,7 +71,9 @@ cd ../client && npm install
 
 ## 3. Create .env in /server
 PORT=5000
+
 MONGO_URI=mongodb://localhost:27017/bodalink
+
 JWT_SECRET=your_jwt_secret
 <!-- MPESA_CONSUMER_KEY=your_mpesa_key
 MPESA_CONSUMER_SECRET=your_mpesa_secret
