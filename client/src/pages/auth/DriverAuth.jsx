@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin, Car, Mail, Lock, User, Eye, EyeOff, Smartphone, FileText } from "lucide-react";
+import axios from "axios";
 
 const DriverAuth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -25,16 +27,54 @@ const DriverAuth = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Store user role as "driver" in localStorage
-    localStorage.setItem("userRole", "driver");
-    localStorage.setItem("userEmail", formData.email);
-    localStorage.setItem("isAuthenticated", "true");
-    
-    // Redirect to driver dashboard
-    navigate("/driver-dashboard");
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (isLogin) {
+    // LOGIN
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
+        email: formData.email,
+        password: formData.password,
+      });
+      // You can store token or user info from res.data if needed
+      localStorage.setItem("userRole", "driver");
+      localStorage.setItem("userEmail", formData.email);
+      localStorage.setItem("isAuthenticated", "true");
+      toast.success("Login successful!", { duration: 3000 });
+      navigate("/driver-dashboard");
+    } catch (err) {
+      toast.error(
+        err.response?.data?.message || "Login failed. Please try again.",
+        { duration: 3000 }
+      );
+    }
+  } else {
+    // REGISTER
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/register", {
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        role: "driver", 
+        profile: {
+          name: formData.name,
+          licenseNumber: formData.licenseNumber,
+          vehicleRegistration: formData.vehicleRegistration,
+        },
+      });
+
+      toast("Driver registration successful!", { duration:3000 });
+      setIsLogin(true); // Switch to login view
+    } catch (err) {
+      toast(
+        err.response?.data?.message || "Registration failed. Please try again.",
+        { duration: 3000 }
+      );
+    }
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center p-4">

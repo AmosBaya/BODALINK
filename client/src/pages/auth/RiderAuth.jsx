@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin, Smartphone, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
+import axios from "axios";
 
 const RiderAuth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -23,16 +24,52 @@ const RiderAuth = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Store user role as "rider" in localStorage
-    localStorage.setItem("userRole", "rider");
-    localStorage.setItem("userEmail", formData.email);
-    localStorage.setItem("isAuthenticated", "true");
-    
-    // Redirect to rider dashboard
-    navigate("/rider-dashboard");
-  };
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (isLogin) {
+    // LOGIN
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
+        email: formData.email,
+        password: formData.password,
+      });
+      // You can store token or user info from res.data if needed
+      localStorage.setItem("userRole", "driver");
+      localStorage.setItem("userEmail", formData.email);
+      localStorage.setItem("isAuthenticated", "true");
+      toast("Login successful!", { duration: 3000 });
+      navigate("/driver-dashboard");
+    } catch (err) {
+      toast(
+        err.response?.data?.message || "Login failed. Please try again.",
+        { duration: 3000 }
+      );
+    }
+  } else {
+    // REGISTER
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/register", {
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        role: "rider",
+        profile: {
+          name: formData.name,
+        },
+      });
+
+      toast("Driver registration successful!", { duration:3000 });
+      setIsLogin(true); // Switch to login view
+    } catch (err) {
+      toast(
+        err.response?.data?.message || "Registration failed. Please try again.",
+        { duration: 3000 }
+      );
+    }
+  }
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 flex items-center justify-center p-4">
