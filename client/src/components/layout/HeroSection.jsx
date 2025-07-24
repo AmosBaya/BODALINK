@@ -123,7 +123,7 @@ const Hero = () => {
                   <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
                     <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                     <div className="flex-1">
-                      <div className="font-medium text-gray-900">Kampala Central</div>
+                      <div className="font-medium text-gray-900">Nairobi CBD</div>
                       <div className="text-sm text-gray-500">Your current location</div>
                     </div>
                   </div>

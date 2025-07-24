@@ -19,6 +19,7 @@ import {
   Navigation,
   AlertCircle
 } from "lucide-react";
+import axios from "axios";
 
 const DriverDashboard = () => {
   const [isOnline, setIsOnline] = useState(false);
@@ -65,6 +66,12 @@ const DriverDashboard = () => {
     alert("Converting KES 500 to airtime. You'll receive airtime on your registered number.");
   };
 
+  const user = ()=>{
+    const res = axios.get("http://localhost:5000//api/drivers/profile", {
+
+    })
+  }
+  
   return (
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-6xl mx-auto space-y-6">
@@ -72,7 +79,7 @@ const DriverDashboard = () => {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">Driver Dashboard</h1>
-            <p className="text-muted-foreground">Welcome back, Patrick!</p>
+            <p className="text-muted-foreground">Welcome back, {user}!</p>
           </div>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">

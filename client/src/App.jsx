@@ -9,7 +9,7 @@ import { Toaster } from "@/components/ui/sonner"
 
 export default function App() {
   return (
-    <div className="flex items-center justify-center px-1">
+    <div>
     <Toaster position="top-center" />
     <BrowserRouter>
       <Routes>

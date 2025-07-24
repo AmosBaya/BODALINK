@@ -39,6 +39,7 @@ const handleSubmit = async (e) => {
       // You can store token or user info from res.data if needed
       localStorage.setItem("userRole", "driver");
       localStorage.setItem("userEmail", formData.email);
+      localStorage.setItem("userName", formData.name);
       localStorage.setItem("isAuthenticated", "true");
       toast("Login successful!", { duration: 3000 });
       navigate("/driver-dashboard");
@@ -63,6 +64,7 @@ const handleSubmit = async (e) => {
 
       toast("Driver registration successful!", { duration:3000 });
       setIsLogin(true); // Switch to login view
+      // navigate("/driver-dashboard");
     } catch (err) {
       toast(
         err.response?.data?.message || "Registration failed. Please try again.",

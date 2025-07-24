@@ -25,7 +25,7 @@ const PricingCalculator = () => {
 
   const [calculatedPrice, setCalculatedPrice] = useState(0);
 
-  const baseRate = 80; // Base rate per km in KES
+  const baseRate = 45; // Base rate per km in KES
 
   const weatherMultipliers = {
     sunny: 1.0,
