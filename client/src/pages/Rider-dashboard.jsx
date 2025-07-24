@@ -1,4 +1,7 @@
-import { useState } from "react";
+// Converted and enhanced with backend interactions + loading + toast using shadcn/sonner
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,18 +11,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { 
-  MapPin, 
-  Star, 
-  Clock, 
-  DollarSign,
-  Phone,
-  MessageSquare,
-  Navigation,
-  Calendar,
-  Plus,
-  User,
-  MapIcon
+
+import {
+  MapPin, Star, Clock, DollarSign, Phone,
+  MessageSquare, Navigation, Calendar, Plus,
+  User, MapIcon
 } from "lucide-react";
 
 const RiderDashboard = () => {
@@ -28,111 +24,92 @@ const RiderDashboard = () => {
   const [currentRating, setCurrentRating] = useState(0);
   const [ratingComment, setRatingComment] = useState("");
 
-  const availableDrivers = [
-    {
-      id: 1,
-      name: "Patrick Mwangi",
-      rating: 4.9,
-      distance: "2 min away",
-      fare: 250,
-      bike: "Honda CB150R",
-      phone: "+254 712 345 678",
-      image: "/placeholder.svg",
-      trips: 1250
-    },
-    {
-      id: 2,
-      name: "Grace Wanjiku",
-      rating: 4.8,
-      distance: "4 min away",
-      fare: 280,
-      bike: "Yamaha FZ",
-      phone: "+254 723 456 789",
-      image: "/placeholder.svg",
-      trips: 890
-    },
-    {
-      id: 3,
-      name: "John Kiprotich",
-      rating: 4.7,
-      distance: "6 min away",
-      fare: 300,
-      bike: "TVS Apache",
-      phone: "+254 734 567 890",
-      image: "/placeholder.svg",
-      trips: 2100
+  const [availableDrivers, setAvailableDrivers] = useState([]);
+  const [rideHistory, setRideHistory] = useState([]);
+  const [bookingForm, setBookingForm] = useState({ pickup: "", destination: "", notes: "" });
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const driversRes = await axios.get("http://localhost:5000/api/riders/available-drivers");
+        const historyRes = await axios.get("http://localhost:5000/api/riders/ride-history");
+        setAvailableDrivers(driversRes.data);
+        setRideHistory(historyRes.data);
+      } catch (error) {
+        toast.error("Failed to fetch dashboard data");
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleBookRide = async (driver) => {
+    try {
+      setLoading(true);
+      const res = await axios.post("http://localhost:5000/api/riders/request-ride", {
+        driverId: driver.id,
+        pickup: bookingForm.pickup,
+        destination: bookingForm.destination,
+        notes: bookingForm.notes,
+      });
+      toast.success(res.data.message || `Ride booked with ${driver.name}`);
+    } catch (error) {
+      toast.error("Failed to book ride");
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-  ];
-
-  const rideHistory = [
-    {
-      id: 1,
-      driver: "Patrick Mwangi",
-      date: "2024-01-15",
-      time: "2:30 PM",
-      from: "CBD, Nairobi",
-      to: "Westlands",
-      fare: 250,
-      rating: 5,
-      status: "Completed"
-    },
-    {
-      id: 2,
-      driver: "Grace Wanjiku",
-      date: "2024-01-14",
-      time: "11:45 AM",
-      from: "Karen",
-      to: "Airport",
-      fare: 450,
-      rating: 4,
-      status: "Completed"
-    },
-    {
-      id: 3,
-      driver: "John Kiprotich",
-      date: "2024-01-13",
-      time: "6:20 PM",
-      from: "Kilimani",
-      to: "CBD",
-      fare: 180,
-      rating: 0,
-      status: "Pending Rating"
-    }
-  ];
-
-  const [bookingForm, setBookingForm] = useState({
-    pickup: "",
-    destination: "",
-    notes: ""
-  });
-
-  const handleBookRide = (driver) => {
-    // Integration point: Book ride API call
-    alert(`Ride booked with ${driver.name}! They'll arrive in ${driver.distance}.`);
   };
 
-  const handleRateDriver = (rideId) => {
-    // Integration point: Rate driver API call
-    console.log("Rating:", currentRating, "Comment:", ratingComment, "Ride ID:", rideId);
-    setRatingDialogOpen(false);
-    setCurrentRating(0);
-    setRatingComment("");
-    alert("Thank you for your rating!");
+  const handleRateDriver = async (rideId) => {
+    try {
+      setLoading(true);
+      await axios.post("http://localhost:5000/api/riders/rate-driver", {
+        rideId,
+        rating: currentRating,
+        comment: ratingComment,
+      });
+      toast.success("Thank you for your rating!");
+      setRatingDialogOpen(false);
+      setCurrentRating(0);
+      setRatingComment("");
+    } catch (error) {
+      toast.error("Failed to submit rating");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleNewRideBooking = () => {
+  const handleNewRideBooking = async () => {
     if (!bookingForm.pickup || !bookingForm.destination) {
-      alert("Please fill in pickup and destination locations.");
+      toast.warning("Please fill in pickup and destination locations.");
       return;
     }
-    // Integration point: New ride booking API call
-    alert("Searching for available drivers near you...");
+    try {
+      setLoading(true);
+      const res = await axios.post("http://localhost:5000/api/riders/request-ride", {
+        pickup: bookingForm.pickup,
+        destination: bookingForm.destination,
+        notes: bookingForm.notes,
+      });
+      setAvailableDrivers(res.data);
+      toast.success("Drivers found near you");
+    } catch (error) {
+      toast.error("Could not find drivers");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header */}
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">Rider Dashboard</h1>
@@ -140,7 +117,7 @@ const RiderDashboard = () => {
           </div>
           <Avatar className="h-12 w-12">
             <AvatarImage src="/placeholder.svg" />
-            <AvatarFallback>JD</AvatarFallback>
+            <AvatarFallback>RD</AvatarFallback>
           </Avatar>
         </div>
 
@@ -150,13 +127,12 @@ const RiderDashboard = () => {
             <TabsTrigger value="history">Ride History</TabsTrigger>
             <TabsTrigger value="drivers">Available Drivers</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="book" className="space-y-4">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Plus className="h-5 w-5" />
-                  Book New Ride
+                  <Plus className="h-5 w-5" /> Book New Ride
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -165,65 +141,28 @@ const RiderDashboard = () => {
                     <Label htmlFor="pickup">Pickup Location</Label>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="pickup"
-                        placeholder="Enter pickup location"
-                        className="pl-10"
-                        value={bookingForm.pickup}
-                        onChange={(e) => setBookingForm({...bookingForm, pickup: e.target.value})}
-                      />
+                      <Input id="pickup" className="pl-10" placeholder="Enter pickup location" value={bookingForm.pickup} onChange={(e) => setBookingForm({ ...bookingForm, pickup: e.target.value })} />
                     </div>
                   </div>
-                  
                   <div className="space-y-2">
                     <Label htmlFor="destination">Destination</Label>
                     <div className="relative">
                       <Navigation className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="destination"
-                        placeholder="Where are you going?"
-                        className="pl-10"
-                        value={bookingForm.destination}
-                        onChange={(e) => setBookingForm({...bookingForm, destination: e.target.value})}
-                      />
+                      <Input id="destination" className="pl-10" placeholder="Where are you going?" value={bookingForm.destination} onChange={(e) => setBookingForm({ ...bookingForm, destination: e.target.value })} />
                     </div>
                   </div>
                 </div>
-                
                 <div className="space-y-2">
-                  <Label htmlFor="notes">Special Instructions (Optional)</Label>
-                  <Textarea
-                    id="notes"
-                    placeholder="Any special instructions for the driver..."
-                    value={bookingForm.notes}
-                    onChange={(e) => setBookingForm({...bookingForm, notes: e.target.value})}
-                  />
+                  <Label htmlFor="notes">Special Instructions</Label>
+                  <Textarea id="notes" placeholder="Optional..." value={bookingForm.notes} onChange={(e) => setBookingForm({ ...bookingForm, notes: e.target.value })} />
                 </div>
-                
-                <Button onClick={handleNewRideBooking} className="w-full" size="lg">
-                  <MapIcon className="mr-2 h-4 w-4" />
-                  Find Available Drivers
+                <Button onClick={handleNewRideBooking} className="w-full text-white bg-green-800 hover:bg-green-700 hover:text-black"  size="lg" disabled={loading}>
+                  <MapIcon className="mr-2 h-4 w-4" /> {loading ? "Loading..." : "Find Available Drivers"}
                 </Button>
               </CardContent>
             </Card>
-            
-            {/* Fare Estimate */}
-            {/* <Card>
-              <CardHeader>
-                <CardTitle>Estimated Fare</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-2xl font-bold">KES 250 - 300</p>
-                    <p className="text-sm text-muted-foreground">Based on distance and current demand</p>
-                  </div>
-                  <Badge>Dynamic Pricing</Badge>
-                </div>
-              </CardContent>
-            </Card> */}
           </TabsContent>
-          
+
           <TabsContent value="history" className="space-y-4">
             <Card>
               <CardHeader>

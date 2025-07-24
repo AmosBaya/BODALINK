@@ -41,7 +41,7 @@ const Header = () => {
           <div className="hidden md:flex items-center space-x-4">
             <Link to="/rider-auth">
               <Button variant="ghost" className="text-gray-700 hover:text-orange-500 hover:bg-orange-50">
-                Rider App
+                Book a Ride
               </Button>
             </Link>
             <Link to="/driver-auth">

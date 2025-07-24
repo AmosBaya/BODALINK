@@ -66,11 +66,6 @@ const DriverDashboard = () => {
     alert("Converting KES 500 to airtime. You'll receive airtime on your registered number.");
   };
 
-  const user = ()=>{
-    const res = axios.get("http://localhost:5000//api/drivers/profile", {
-
-    })
-  }
   
   return (
     <div className="min-h-screen bg-background p-4">

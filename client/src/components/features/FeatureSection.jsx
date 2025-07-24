@@ -67,7 +67,7 @@ const FeatureSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-background">
+    <section id="features" className="py-20 bg-background">
       <div className="container">
         <div className="text-center mb-16 animate-fade-in">
           <Badge variant="outline" className="mb-4">

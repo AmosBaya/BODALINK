@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-hero overflow-hidden bg-orange-500">
+    <section className="min-h-screen items-center justify-center bg-gradient-hero overflow-hidden bg-orange-500">
       {/* Animated background elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-32 h-32 bg-white/5 rounded-full blur-xl animate-pulse"></div>
@@ -104,11 +104,11 @@ const Hero = () => {
           </div>
 
           {/* Right Column - Ride Preview Card */}
-          <div className="relative animate-slide-up">
+          {/* <div className="relative animate-slide-up">
             <Card className="p-8 bg-white/95 backdrop-blur-xl shadow-2xl border-0 animate-pulse-glow">
-              <div className="space-y-6">
+              <div className="space-y-6"> */}
                 {/* Header */}
-                <div className="flex items-center justify-between">
+                {/* <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900">Find Your Ride</h3>
                     <p className="text-gray-600">Book instantly</p>
@@ -116,29 +116,29 @@ const Hero = () => {
                   <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
                     <MapPin className="h-6 w-6 text-white" />
                   </div>
-                </div>
+                </div> */}
                 
                 {/* Location */}
-                <div className="space-y-4">
+                {/* <div className="space-y-4">
                   <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
                     <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                     <div className="flex-1">
                       <div className="font-medium text-gray-900">Nairobi CBD</div>
                       <div className="text-sm text-gray-500">Your current location</div>
                     </div>
-                  </div>
+                  </div> */}
                   
-                  <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                  {/* <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
                     <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                     <div className="flex-1">
                       <div className="font-medium text-gray-900">Nakawa Market</div>
                       <div className="text-sm text-gray-500">5.2 km away</div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 
                 {/* Driver Info */}
-                <div className="flex justify-between items-center p-4 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl border border-orange-100">
+                {/* <div className="flex justify-between items-center p-4 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl border border-orange-100">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center text-white font-bold">
                       JK
@@ -155,10 +155,10 @@ const Hero = () => {
                     <div className="text-2xl font-bold text-gray-900">KES 640</div>
                     <div className="text-sm text-gray-500">Fixed price</div>
                   </div>
-                </div>
+                </div> */}
                 
                 {/* Payment Methods */}
-                <div className="space-y-3">
+                {/* <div className="space-y-3">
                   <div className="text-sm font-medium text-gray-700">Payment options</div>
                   <div className="flex gap-2">
                     <div className="flex-1 flex items-center justify-center gap-2 py-3 bg-green-50 border border-green-200 rounded-lg">
@@ -174,15 +174,15 @@ const Hero = () => {
                       <span className="text-sm font-medium text-orange-800">Cash</span>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 
                 {/* Book Button */}
-                <Button className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 shadow-button">
+                {/* <Button className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 shadow-button">
                   Confirm Ride
                 </Button>
               </div>
-            </Card>
-          </div>
+            </Card> */}
+          {/* </div> */}
         </div>
       </div>
     </section>

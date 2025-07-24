@@ -26,7 +26,7 @@ const Index = () => {
               Simple Process
             </Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
-              How BodaRide Works
+              How BodaLink Works
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Getting a ride is as easy as 1-2-3. Sign in, book, and ride safely across Africa with our trusted drivers.
@@ -42,12 +42,12 @@ const Index = () => {
                 <div className="space-y-4">
                   <h3 className="text-2xl font-bold text-gray-900">Download & Setup</h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Download the BodaRide app and create your account in less than 2 minutes. Quick verification and you're ready to ride.
+                    Click "Get started" button and create your account in less than 2 minutes. Quick verification and you're ready to ride.
                   </p>
                 </div>
                 <Button variant="outline" className="w-full border-blue-200 text-blue-600 hover:bg-blue-50">
                   <Download className="h-4 w-4 mr-2" />
-                  Get App
+                  Get Started
                 </Button>
               </CardContent>
             </Card>
@@ -92,7 +92,7 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-hero bg-orange-500 text-white">
+      <section id="support" className="py-20 bg-gradient-hero bg-orange-500 text-white">
         <div className="container text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
             Ready to Transform Your Commute?
@@ -105,13 +105,13 @@ const Index = () => {
             <Link to="/rider-dashboard">
               <Button size="lg" variant="secondary" className="text-lg px-8 py-4">
                 <Download className="h-5 w-5 mr-2" />
-                Rider Dashboard
+                Book your First Ride
               </Button>
             </Link>
             <Link to="/driver-dashboard">
               <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-white/30 text-white hover:bg-white/10">
                 <Download className="h-5 w-5 mr-2" />
-                Driver Dashboard
+                Start Driving
               </Button>
             </Link>
           </div>
@@ -144,7 +144,7 @@ const Index = () => {
             <div>
               <div className="flex items-center mb-4">
                 <MapPin className="h-6 w-6 text-primary mr-2" />
-                <span className="font-bold text-xl">BodaRide</span>
+                <span className="font-bold text-xl">BodaLink</span>
               </div>
               <p className="text-muted-foreground mb-4">
                 Safe, affordable boda-boda rides across Africa. Your trusted transport partner.

@@ -85,7 +85,7 @@ const PricingCalculator = () => {
   const surge = getSurgeLevel();
 
   return (
-    <section className="py-20 bg-muted/30">
+    <section id="pricing" className="py-20 bg-muted/30">
       <div className="container">
         <div className="text-center mb-12">
           <Badge variant="outline" className="mb-4">

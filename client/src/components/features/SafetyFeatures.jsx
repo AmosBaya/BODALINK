@@ -59,7 +59,7 @@ const SafetyFeatures = () => {
   ];
 
   return (
-    <section className="py-20 bg-background">
+    <section id="safety" className="py-20 bg-background">
       <div className="container">
         <div className="text-center mb-16">
           <Badge variant="outline" className="mb-4">

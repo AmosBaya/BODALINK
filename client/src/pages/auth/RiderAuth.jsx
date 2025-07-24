@@ -25,65 +25,52 @@ const RiderAuth = () => {
     });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+    if (isLogin) {
+      try {
+        const res = await axios.post("http://localhost:5000/api/auth/login", {
+          email: formData.email,
+          password: formData.password,
+        });
+        localStorage.setItem("userRole", "driver");
+        localStorage.setItem("userEmail", formData.email);
+        localStorage.setItem("userName", formData.name);
+        localStorage.setItem("isAuthenticated", "true");
+        toast("Login successful!", { duration: 3000 });
+        navigate("/rider-dashboard");
+      } catch (err) {
+        toast(err.response?.data?.message || "Login failed. Please try again.", { duration: 3000 });
+      }
+    } else {
+      try {
+        const res = await axios.post("http://localhost:5000/api/auth/register", {
+          email: formData.email,
+          password: formData.password,
+          phone: formData.phone,
+          role: "rider",
+          profile: {
+            name: formData.name,
+          },
+        });
 
-  if (isLogin) {
-    // LOGIN
-    try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email: formData.email,
-        password: formData.password,
-      });
-      // You can store token or user info from res.data if needed
-      localStorage.setItem("userRole", "driver");
-      localStorage.setItem("userEmail", formData.email);
-      localStorage.setItem("userName", formData.name);
-      localStorage.setItem("isAuthenticated", "true");
-      toast("Login successful!", { duration: 3000 });
-      navigate("/driver-dashboard");
-    } catch (err) {
-      toast(
-        err.response?.data?.message || "Login failed. Please try again.",
-        { duration: 3000 }
-      );
+        toast("Driver registration successful!", { duration: 3000 });
+        setIsLogin(true);
+      } catch (err) {
+        toast(err.response?.data?.message || "Registration failed. Please try again.", { duration: 3000 });
+      }
     }
-  } else {
-    // REGISTER
-    try {
-      const res = await axios.post("http://localhost:5000/api/auth/register", {
-        email: formData.email,
-        password: formData.password,
-        phone: formData.phone,
-        role: "rider",
-        profile: {
-          name: formData.name,
-        },
-      });
-
-      toast("Driver registration successful!", { duration:3000 });
-      setIsLogin(true); // Switch to login view
-      // navigate("/driver-dashboard");
-    } catch (err) {
-      toast(
-        err.response?.data?.message || "Registration failed. Please try again.",
-        { duration: 3000 }
-      );
-    }
-  }
-};
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 flex items-center justify-center p-4">
-      {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-20 w-32 h-32 bg-orange-200/30 rounded-full blur-xl"></div>
         <div className="absolute bottom-20 right-20 w-48 h-48 bg-red-200/30 rounded-full blur-xl"></div>
       </div>
 
       <div className="w-full max-w-md relative z-10">
-        {/* Header */}
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center space-x-3 group mb-6">
             <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
@@ -101,7 +88,6 @@ const handleSubmit = async (e) => {
           </p>
         </div>
 
-        {/* Auth Card */}
         <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-xl">
           <CardHeader className="text-center pb-4">
             <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -204,7 +190,6 @@ const handleSubmit = async (e) => {
               </Button>
             </form>
 
-            {/* Toggle between login/signup */}
             <div className="text-center">
               <p className="text-gray-600">
                 {isLogin ? "Don't have an account?" : "Already have an account?"}
@@ -217,7 +202,6 @@ const handleSubmit = async (e) => {
               </p>
             </div>
 
-            {/* Divider */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t border-gray-200"></span>
@@ -227,7 +211,6 @@ const handleSubmit = async (e) => {
               </div>
             </div>
 
-            {/* Social Login */}
             <div className="grid grid-cols-2 gap-3">
               <Button variant="outline" className="h-12">
                 <span className="mr-2">📱</span>
@@ -239,7 +222,6 @@ const handleSubmit = async (e) => {
               </Button>
             </div>
 
-            {/* Driver Link */}
             <div className="text-center pt-4 border-t border-gray-200">
               <p className="text-sm text-gray-600 mb-2">Want to earn money driving?</p>
               <Link to="/driver-auth">
