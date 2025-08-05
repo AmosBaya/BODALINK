@@ -1,28 +1,24 @@
+// DriverDashboard.jsx - converted to JavaScript React JSX with backend interaction, loading & toast
+
 import { useState } from "react";
+import axios from "axios";
+import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Clock, 
-  DollarSign, 
-  MapPin, 
-  Phone, 
-  Star, 
-  TrendingUp,
-  CreditCard,
-  Wallet,
-  CheckCircle,
-  XCircle,
-  Navigation,
-  AlertCircle
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+
+import {
+  Clock, DollarSign, MapPin, Phone, Star,
+  TrendingUp, CreditCard, Wallet, CheckCircle,
+  XCircle, Navigation, AlertCircle
 } from "lucide-react";
-import axios from "axios";
 
 const DriverDashboard = () => {
   const [isOnline, setIsOnline] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [pendingRequest, setPendingRequest] = useState({
     rider: "John Doe",
     pickup: "CBD, Nairobi",
@@ -46,52 +42,74 @@ const DriverDashboard = () => {
     hours: 42
   };
 
-  const handleAcceptRide = () => {
-    setPendingRequest(null);
-    // Integration point: Accept ride API call
+  const handleAcceptRide = async () => {
+    setLoading(true);
+    try {
+      await axios.post("http://localhost:5000/api/drivers/accept-ride", { requestId: 123 });
+      setPendingRequest(null);
+      toast.success("Ride accepted successfully");
+    } catch (error) {
+      toast.error("Failed to accept ride");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleRejectRide = () => {
-    setPendingRequest(null);
-    // Integration point: Reject ride API call
+  const handleRejectRide = async () => {
+    setLoading(true);
+    try {
+      await axios.post("http://localhost:5000/api/drivers/reject-ride", { requestId: 123 });
+      setPendingRequest(null);
+      toast.success("Ride rejected");
+    } catch (error) {
+      toast.error("Failed to reject ride");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleWithdraw = () => {
-    // Integration point: Withdrawal API call
-    alert("Withdrawal request submitted. Funds will be sent to your M-Pesa within 5 minutes.");
+  const handleWithdraw = async () => {
+    setLoading(true);
+    try {
+      await axios.post("http://localhost:5000/api/drivers/withdraw-earnings", { amount: 2450 });
+      toast.success("Withdrawal submitted to M-Pesa");
+    } catch (error) {
+      toast.error("Withdrawal failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleAirtimeConversion = () => {
-    // Integration point: Airtime conversion API call
-    alert("Converting KES 500 to airtime. You'll receive airtime on your registered number.");
+  const handleAirtimeConversion = async () => {
+    setLoading(true);
+    try {
+      await axios.post("http://localhost:5000/api/drivers/convert-to-airtime", { amount: 500 });
+      toast.success("Airtime sent to registered number");
+    } catch (error) {
+      toast.error("Airtime conversion failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  
   return (
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header */}
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">Driver Dashboard</h1>
-            <p className="text-muted-foreground">Welcome back, {user}!</p>
+            <p className="text-muted-foreground">Welcome back, Driver!</p>
           </div>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <span className="text-sm">Offline</span>
-              <Switch 
-                checked={isOnline} 
-                onCheckedChange={setIsOnline}
-              />
+              <Switch checked={isOnline} onCheckedChange={setIsOnline} />
               <span className="text-sm">Online</span>
             </div>
-            <Badge variant={isOnline ? "default" : "secondary"}>
-              {isOnline ? "Available" : "Offline"}
-            </Badge>
+            <Badge variant={isOnline ? "default" : "secondary"}>{isOnline ? "Available" : "Offline"}</Badge>
           </div>
         </div>
 
-        {/* Pending Ride Request */}
         {pendingRequest && (
           <Card className="border-primary bg-primary/5">
             <CardHeader>
@@ -101,7 +119,7 @@ const DriverDashboard = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <p><strong>Rider:</strong> {pendingRequest.rider}</p>
                   <p><strong>Pickup:</strong> {pendingRequest.pickup}</p>
@@ -114,75 +132,22 @@ const DriverDashboard = () => {
                 </div>
               </div>
               <div className="flex gap-4 mt-4">
-                <Button 
-                  onClick={handleAcceptRide}
-                  className="flex-1 bg-green-600 hover:bg-green-700"
-                >
-                  <CheckCircle className="mr-2 h-4 w-4" />
-                  Accept Ride
+                <Button onClick={handleAcceptRide} disabled={loading} className="flex-1 bg-green-600 hover:bg-green-700">
+                  <CheckCircle className="mr-2 h-4 w-4" /> Accept Ride
                 </Button>
-                <Button 
-                  variant="destructive" 
-                  onClick={handleRejectRide}
-                  className="flex-1"
-                >
-                  <XCircle className="mr-2 h-4 w-4" />
-                  Reject
+                <Button onClick={handleRejectRide} disabled={loading} variant="destructive" className="flex-1 bg-red-600 hover:bg-red-700">
+                  <XCircle className="mr-2 h-4 w-4" /> Reject
                 </Button>
               </div>
             </CardContent>
           </Card>
         )}
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Weekly Earnings</p>
-                  <p className="text-2xl font-bold">KES {weeklyEarnings.total.toLocaleString()}</p>
-                </div>
-                <DollarSign className="h-8 w-8 text-green-600" />
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Total Trips</p>
-                  <p className="text-2xl font-bold">{weeklyEarnings.trips}</p>
-                </div>
-                <Navigation className="h-8 w-8 text-blue-600" />
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Rating</p>
-                  <p className="text-2xl font-bold">{weeklyEarnings.avgRating}</p>
-                </div>
-                <Star className="h-8 w-8 text-yellow-500" />
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Hours Online</p>
-                  <p className="text-2xl font-bold">{weeklyEarnings.hours}h</p>
-                </div>
-                <Clock className="h-8 w-8 text-purple-600" />
-              </div>
-            </CardContent>
-          </Card>
+        <div className="grid md:grid-cols-4 gap-4">
+          <Card><CardContent className="p-6"><div className="flex justify-between"><div><p className="text-sm text-muted-foreground">Weekly Earnings</p><p className="text-2xl font-bold">KES {weeklyEarnings.total.toLocaleString()}</p></div><DollarSign className="h-8 w-8 text-green-600" /></div></CardContent></Card>
+          <Card><CardContent className="p-6"><div className="flex justify-between"><div><p className="text-sm text-muted-foreground">Total Trips</p><p className="text-2xl font-bold">{weeklyEarnings.trips}</p></div><Navigation className="h-8 w-8 text-blue-600" /></div></CardContent></Card>
+          <Card><CardContent className="p-6"><div className="flex justify-between"><div><p className="text-sm text-muted-foreground">Rating</p><p className="text-2xl font-bold">{weeklyEarnings.avgRating}</p></div><Star className="h-8 w-8 text-yellow-500" /></div></CardContent></Card>
+          <Card><CardContent className="p-6"><div className="flex justify-between"><div><p className="text-sm text-muted-foreground">Hours Online</p><p className="text-2xl font-bold">{weeklyEarnings.hours}h</p></div><Clock className="h-8 w-8 text-purple-600" /></div></CardContent></Card>
         </div>
 
         <Tabs defaultValue="trips" className="space-y-4">
@@ -190,115 +155,55 @@ const DriverDashboard = () => {
             <TabsTrigger value="trips">Recent Trips</TabsTrigger>
             <TabsTrigger value="finance">Finance</TabsTrigger>
           </TabsList>
-          
-          <TabsContent value="trips" className="space-y-4">
+
+          <TabsContent value="trips">
             <Card>
-              <CardHeader>
-                <CardTitle>Recent Trips</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {recentTrips.map((trip) => (
-                    <div key={trip.id} className="flex items-center justify-between p-4 border rounded-lg">
-                      <div className="flex items-center space-x-4">
-                        <Avatar>
-                          <AvatarFallback>{trip.rider.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <p className="font-medium">{trip.rider}</p>
-                          <p className="text-sm text-muted-foreground">{trip.destination}</p>
-                          <p className="text-xs text-muted-foreground">{trip.date}</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold">KES {trip.fare}</p>
-                        <div className="flex items-center">
-                          {[...Array(5)].map((_, i) => (
-                            <Star 
-                              key={i} 
-                              className={`h-4 w-4 ${i < trip.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
-                            />
-                          ))}
-                        </div>
+              <CardHeader><CardTitle>Recent Trips</CardTitle></CardHeader>
+              <CardContent className="space-y-4">
+                {recentTrips.map((trip) => (
+                  <div key={trip.id} className="flex justify-between p-4 border rounded-lg">
+                    <div className="flex items-center space-x-4">
+                      <Avatar><AvatarFallback>{trip.rider.split(" ").map(n => n[0]).join("")}</AvatarFallback></Avatar>
+                      <div>
+                        <p className="font-medium">{trip.rider}</p>
+                        <p className="text-sm text-muted-foreground">{trip.destination}</p>
+                        <p className="text-xs text-muted-foreground">{trip.date}</p>
                       </div>
                     </div>
-                  ))}
-                </div>
+                    <div className="text-right">
+                      <p className="font-bold">KES {trip.fare}</p>
+                      <div className="flex items-center">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className={`h-4 w-4 ${i < trip.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </CardContent>
             </Card>
           </TabsContent>
-          
-          <TabsContent value="finance" className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <TabsContent value="finance">
+            <div className="grid md:grid-cols-2 gap-6">
               <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Wallet className="h-5 w-5" />
-                    Wallet Balance
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center space-y-4">
-                    <p className="text-3xl font-bold">KES 2,450</p>
-                    <p className="text-muted-foreground">Available for withdrawal</p>
-                    <Button onClick={handleWithdraw} className="w-full">
-                      <CreditCard className="mr-2 h-4 w-4" />
-                      Withdraw to M-Pesa
-                    </Button>
-                  </div>
+                <CardHeader><CardTitle className="flex items-center gap-2"><Wallet className="h-5 w-5" /> Wallet Balance</CardTitle></CardHeader>
+                <CardContent className="text-center space-y-4">
+                  <p className="text-3xl font-bold">KES 2,450</p>
+                  <p className="text-muted-foreground">Available for withdrawal</p>
+                  <Button onClick={handleWithdraw} disabled={loading} className="w-full"><CreditCard className="mr-2 h-4 w-4" /> Withdraw to M-Pesa</Button>
                 </CardContent>
               </Card>
-              
               <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Phone className="h-5 w-5" />
-                    Airtime Conversion
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <p className="text-muted-foreground">Convert earnings to airtime</p>
-                    <div className="space-y-2">
-                      <p>Convert: KES 500</p>
-                      <p className="text-sm text-muted-foreground">Phone: +254 7XX XXX XXX</p>
-                    </div>
-                    <Button onClick={handleAirtimeConversion} variant="outline" className="w-full">
-                      Convert to Airtime
-                    </Button>
-                  </div>
+                <CardHeader><CardTitle className="flex items-center gap-2"><Phone className="h-5 w-5" /> Airtime Conversion</CardTitle></CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-muted-foreground">Convert earnings to airtime</p>
+                  <p>Convert: KES 500</p>
+                  <p className="text-sm text-muted-foreground">Phone: +254 7XX XXX XXX</p>
+                  <Button onClick={handleAirtimeConversion} disabled={loading} variant="outline" className="w-full">Convert to Airtime</Button>
                 </CardContent>
               </Card>
             </div>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5" />
-                  Earnings Summary
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="text-center">
-                    <p className="text-2xl font-bold">KES 8,750</p>
-                    <p className="text-sm text-muted-foreground">This Week</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-2xl font-bold">KES 32,100</p>
-                    <p className="text-sm text-muted-foreground">This Month</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-2xl font-bold">35</p>
-                    <p className="text-sm text-muted-foreground">Trips</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-2xl font-bold">4.8</p>
-                    <p className="text-sm text-muted-foreground">Avg Rating</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </TabsContent>
         </Tabs>
       </div>

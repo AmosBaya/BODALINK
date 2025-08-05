@@ -71,42 +71,4 @@ exports.logout = (req, res) => {
   res.status(200).json({ message: 'Logged out successfully' });
 };
 
-exports.refreshToken = (req, res) => {
-  // Simple stateless JWT refresh logic
-  try {
-    const { token } = req.body;
-    const decoded = jwt.verify(token, JWT_SECRET);
 
-    const newToken = generateToken({ _id: decoded.id, role: decoded.role });
-    res.status(200).json({ token: newToken });
-  } catch (err) {
-    res.status(401).json({ message: 'Invalid token' });
-  }
-};
-
-exports.verifyPhone = async (req, res) => {
-  const { phone } = req.body;
-  const user = await User.findOne({ phone });
-
-  if (!user) return res.status(404).json({ message: 'User not found' });
-
-  user.verification.phone = true;
-  await user.save();
-  res.status(200).json({ message: 'Phone verified' });
-};
-
-exports.resetPassword = async (req, res) => {
-  try {
-    const { phone, newPassword } = req.body;
-    const user = await User.findOne({ phone });
-    if (!user) return res.status(404).json({ message: 'User not found' });
-
-    const hashed = await bcrypt.hash(newPassword, 10);
-    user.password = hashed;
-    await user.save();
-
-    res.status(200).json({ message: 'Password reset successful' });
-  } catch (err) {
-    res.status(500).json({ message: 'Reset failed', error: err.message });
-  }
-};

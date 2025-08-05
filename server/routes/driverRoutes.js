@@ -1,14 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const driverController = require('../controllers/driverController');
-
-// Clerk middleware (replace with your actual middleware)
 const authenticate = require('../middlewares/authMiddleware');
 
-console.log(driverController);
-
 // All routes are protected
-router.use(authenticate); // ensures only logged-in drivers access these routes
+router.use(authenticate); 
 
 // @route   GET /api/drivers/profile
 router.get('/profile', driverController.getDriverProfile);
@@ -39,9 +35,6 @@ router.get('/earnings', driverController.getEarnings);
 
 // @route   POST /api/drivers/withdraw-earnings
 router.post('/withdraw-earnings', driverController.withdrawEarnings);
-
-// @route   POST /api/drivers/convert-to-airtime
-router.post('/convert-to-airtime', driverController.convertToAirtime);
 
 // @route   GET /api/drivers/trip-history
 router.get('/trip-history', driverController.getTripHistory);

@@ -2,7 +2,7 @@ const User = require('../models/User');
 const Driver = require('../models/Driver');
 const Ride = require('../models/Ride');
 
-// @desc    Get rider profile
+
 // @route   GET /api/riders/profile
 const getRiderProfile = async (req, res) => {
   try {
@@ -16,7 +16,7 @@ const getRiderProfile = async (req, res) => {
   }
 };
 
-// @desc    Update rider profile
+
 // @route   PUT /api/riders/profile
 const updateRiderProfile = async (req, res) => {
   try {
@@ -31,7 +31,7 @@ const updateRiderProfile = async (req, res) => {
   }
 };
 
-// @desc    Request a ride
+
 // @route   POST /api/riders/request-ride
 const requestRide = async (req, res) => {
   try {
@@ -79,7 +79,7 @@ const requestRide = async (req, res) => {
   }
 };
 
-// @desc    Get ride history
+
 // @route   GET /api/riders/ride-history
 const getRideHistory = async (req, res) => {
   try {
@@ -92,7 +92,7 @@ const getRideHistory = async (req, res) => {
   }
 };
 
-// @desc    Rate a driver
+
 // @route   POST /api/riders/rate-driver
 const rateDriver = async (req, res) => {
   try {
@@ -130,7 +130,7 @@ const rateDriver = async (req, res) => {
   }
 };
 
-// @desc    List available drivers (nearby logic placeholder)
+
 // @route   GET /api/riders/available-drivers
 const listAvailableDrivers = async (req, res) => {
   try {
@@ -145,7 +145,7 @@ const listAvailableDrivers = async (req, res) => {
   }
 };
 
-// @desc    Estimate fare
+
 // @route   GET /api/riders/fare-estimate?distance=3&duration=10
 const estimateFare = (req, res) => {
   try {
@@ -172,7 +172,7 @@ const estimateFare = (req, res) => {
   }
 };
 
-// @desc    Cancel a ride
+
 // @route   POST /api/riders/cancel-ride
 const cancelRide = async (req, res) => {
   try {

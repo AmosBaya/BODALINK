@@ -138,16 +138,6 @@ exports.withdrawEarnings = async (req, res) => {
   }
 };
 
-// POST /api/drivers/convert-to-airtime
-exports.convertToAirtime = async (req, res) => {
-  try {
-    const { amount } = req.body;
-    // Optional: integrate third-party airtime API
-    res.json({ message: `KES ${amount} converted to airtime successfully` });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
 
 // GET /api/drivers/trip-history
 exports.getTripHistory = async (req, res) => {

@@ -156,7 +156,7 @@ const RiderDashboard = () => {
                   <Label htmlFor="notes">Special Instructions</Label>
                   <Textarea id="notes" placeholder="Optional..." value={bookingForm.notes} onChange={(e) => setBookingForm({ ...bookingForm, notes: e.target.value })} />
                 </div>
-                <Button onClick={handleNewRideBooking} className="w-full text-white bg-green-800 hover:bg-green-700 hover:text-black"  size="lg" disabled={loading}>
+                <Button onClick={handleNewRideBooking} className="w-full bg-green-600 hover:bg-green-700"  size="lg" disabled={loading}>
                   <MapIcon className="mr-2 h-4 w-4" /> {loading ? "Loading..." : "Find Available Drivers"}
                 </Button>
               </CardContent>

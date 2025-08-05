@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const riderController = require('../controllers/ridersController');
-
 const authenticate= require('../middlewares/authMiddleware');
 
-router.use(authenticate); // ensures only logged-in riders access these routes
+router.use(authenticate); 
 
 // @route   GET /api/riders/profile
 router.get('/profile', riderController.getRiderProfile);
@@ -33,12 +32,3 @@ router.post('/cancel-ride', riderController.cancelRide);
 module.exports = router;
 
 
-// routes/riders.js
-// GET /api/riders/profile
-// PUT /api/riders/profile
-// POST /api/riders/request-ride
-// GET /api/riders/ride-history
-// POST /api/riders/rate-driver
-// GET /api/riders/available-drivers
-// GET /api/riders/fare-estimate
-// POST /api/riders/cancel-ride
