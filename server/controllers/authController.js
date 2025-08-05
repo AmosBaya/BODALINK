@@ -1,20 +1,11 @@
-// controllers/authController.js
 const User = require('../models/User');
 const Driver = require('../models/Driver');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { generateToken  } = require('../utils/generateToken')
 
-const JWT_SECRET = process.env.JWT_SECRET || 'supersecret';
-const JWT_EXPIRES_IN = '1d';
 
-// Helpers
-const generateToken = (user) => {
-  return jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES_IN,
-  });
-};
 
-exports.register = async (req, res) => {
+exports.signup = async(req, res)=>{
   try {
     const { email, phone, password, role, profile } = req.body;
 

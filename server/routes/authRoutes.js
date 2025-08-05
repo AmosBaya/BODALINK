@@ -1,24 +1,15 @@
 // routes/authRoutes.js
 const express = require('express');
 const router = express.Router();
-const authController = require('../controllers/authController');
+const auth = require('../controllers/authController');
 
 // @route   POST /api/auth/register
-router.post('/register', authController.register);
+router.post('/register', auth.signup);
 
 // @route   POST /api/auth/login
-router.post('/login', authController.login);
+router.post('/login', auth.login);
 
 // @route   POST /api/auth/logout
-router.post('/logout', authController.logout);
-
-// @route   POST /api/auth/refresh-token
-router.post('/refresh-token', authController.refreshToken);
-
-// @route   POST /api/auth/verify-phone
-router.post('/verify-phone', authController.verifyPhone);
-
-// @route   POST /api/auth/reset-password
-router.post('/reset-password', authController.resetPassword);
+router.post('/logout', auth.logout);
 
 module.exports = router;

@@ -25,10 +25,6 @@ app.use('/api/riders', riderRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/drivers', driverRoutes);
 
-
-
-
-
 // Log requests in development mode
 if (process.env.NODE_ENV === 'development') {
   app.use((req, res, next) => {
